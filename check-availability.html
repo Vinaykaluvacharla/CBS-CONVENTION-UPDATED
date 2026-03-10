@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Availability | CBS Convention</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        html {
+            overflow-x: hidden;
+        }
+        :root {
+            --primary-dark: #0b1f3a;
+            --primary-darker: #081a33;
+            --gold: #d4af37;
+            --gold-hover: #e8c555;
+            --glass-bg: rgba(19, 43, 76, 0.65);
+            --glass-border: rgba(212, 175, 55, 0.2);
+            --text-light: #f4f6f9;
+            --text-muted: #aab8c9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            overflow-wrap: break-word;
+        }
+
+        /* BACKGROUND WITH PARALLAX/BLUR */
+        .bg-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(rgba(8, 26, 51, 0.85), rgba(11, 31, 58, 0.95)), url('images/hero_bg.png') center/cover no-repeat;
+            animation: bgZoom 20s infinite alternate linear;
+        }
+
+        @keyframes bgZoom {
+            0% {
+                transform: scale(1);
+            }
+
+            100% {
+                transform: scale(1.05);
+            }
+        }
+
+        /* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 5%;
+            background: rgba(8, 26, 51, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo span {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 35px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: var(--gold);
+            padding: 12px 28px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--gold);
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: var(--gold);
+            color: var(--primary-darker);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+
+        .layout-grid {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* TEXT SECTION */
+        .text-section {
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .text-section h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 56px;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: white;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .text-section h1 span {
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .text-section p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 90%;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            color: var(--text-light);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        /* FORM SECTION */
+        .form-container {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 45px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        /* PROGRESS BAR */
+        .progress {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-bottom: 35px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--gold), #ffde73);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 4px;
+        }
+
+        /* FORM GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* INPUTS */
+        .form-control {
+            width: 100%;
+            padding: 16px 18px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.2);
+            color: white;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--gold);
+            background: rgba(0, 0, 0, 0.4);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.1);
+        }
+
+        select.form-control {
+            appearance: none;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+
+        select.form-control option {
+            background: var(--primary-darker);
+            color: white;
+        }
+
+        /* FLOATING LABEL */
+        .floating-label {
+            position: absolute;
+            top: 50%;
+            left: 18px;
+            transform: translateY(-50%);
+            font-size: 15px;
+            color: var(--text-muted);
+            pointer-events: none;
+            transition: all 0.25s ease;
+            background: transparent;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        textarea~.floating-label {
+            top: 24px;
+        }
+
+        .form-control:focus~.floating-label,
+        .form-control:not(:placeholder-shown)~.floating-label {
+            top: 0;
+            left: 14px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--gold);
+            background: #0d1e33;
+            padding: 0 6px;
+            transform: translateY(-50%);
+            border-radius: 3px;
+        }
+
+        /* Date input fix */
+        input[type="date"].form-control {
+            color: transparent;
+        }
+
+        input[type="date"].form-control:focus,
+        input[type="date"].form-control:valid {
+            color: white;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) sepia(1) saturate(5) hue-rotate(15deg) brightness(1.2);
+            cursor: pointer;
+        }
+
+        /* SLIDER */
+        .slider-container {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .slider-header span {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--gold);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            transition: 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        /* BUTTON */
+        .submit-btn {
+            background: linear-gradient(135deg, var(--gold), #b8942b);
+            color: #000;
+            border: none;
+            width: 100%;
+            padding: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            transition: all 0.6s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(212, 175, 55, 0.3);
+        }
+
+        .submit-btn:hover::before {
+            left: 200%;
+        }
+
+        /* POPUP */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 1000;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup {
+            background: var(--primary-darker);
+            border: 1px solid var(--gold);
+            padding: 50px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(212, 175, 55, 0.1);
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            max-width: 450px;
+            width: 90%;
+        }
+
+        .popup-overlay.active .popup {
+            transform: scale(1) translateY(0);
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gold);
+            font-size: 40px;
+            border: 2px solid var(--gold);
+        }
+
+        .popup h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .popup p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .popup button {
+            background: var(--gold);
+            color: #000;
+            border: none;
+            padding: 14px 35px;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .popup button:hover {
+            background: white;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .text-section {
+                text-align: center;
+            }
+
+            .text-section p {
+                margin: 0 auto 30px;
+            }
+
+            .features {
+                justify-content: center;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .text-section h1 {
+                font-size: 42px;
+            }
+
+            .form-container {
+                padding: 30px 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-wrapper"></div>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">
+            CBS
+            <span>Convention</span>
+        </a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#">Features</a>
+            <a href="#">Events</a>
+            <a href="#">Gallery</a>
+            <a href="#">Reviews</a>
+            <a href="#">Location</a>
+        </div>
+        <a class="nav-btn" href="#">Book Now</a>
+    </nav>
+
+    <main class="main-content">
+        <div class="layout-grid">
+
+            <!-- LEFT TEXT INFO -->
+            <div class="text-section">
+                <h1>Secure Your <span>Dream Venue</span></h1>
+                <p>Host an unforgettable event at CBS Convention Center. Our luxurious halls and world-class amenities
+                    ensure your special moments are celebrated in grandeur.</p>
+
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="feature-icon">&#10003;</div>
+                        <span>Grand Architecture</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">&#10003;</div>
+                        <span>Premium Catering</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">&#10003;</div>
+                        <span>Ample Parking</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">&#10003;</div>
+                        <span>Expert Support</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT FORM -->
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Check Availability</h2>
+                    <p style="color:var(--text-muted); font-size: 14px;">Reserve your preferred date instantly</p>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <form id="bookingForm" action="https://formsubmit.co/vinaysamiyoun@gmail.com" method="POST">
+                    <!-- FormSubmit Configuration -->
+                    <input type="hidden" name="_subject" value="New CBS Convention Booking Request!">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="text" name="_honey" style="display:none">
+                    <input type="hidden" name="_template" value="table">
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" name="name" class="form-control check-input" required placeholder=" ">
+                            <label class="floating-label">Full Name</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="tel" name="phone" class="form-control check-input" required placeholder=" ">
+                            <label class="floating-label">Phone Number</label>
+                        </div>
+
+                        <div class="form-group">
+                            <select name="event_type" class="form-control check-input" required>
+                                <option value="" disabled selected hidden></option>
+                                <option value="Wedding">Wedding</option>
+                                <option value="Reception">Reception</option>
+                                <option value="Engagement">Engagement</option>
+                                <option value="Birthday Party">Birthday Party</option>
+                                <option value="Corporate Event">Corporate Event</option>
+                            </select>
+                            <label class="floating-label"
+                                style="top:0; left:14px; font-size:12px; font-weight:500; color:var(--gold); transform:translateY(-50%); background:#0d1e33; padding:0 6px; border-radius:3px; z-index:2;">Event
+                                Type</label>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="date" name="event_date" class="form-control check-input" id="date" required>
+                            <label class="floating-label"
+                                style="top:0; left:14px; font-size:12px; font-weight:500; color:var(--gold); transform:translateY(-50%); background:#0d1e33; padding:0 6px; border-radius:3px;">Event
+                                Date</label>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <select name="preferred_time" class="form-control check-input" required>
+                                <option value="" disabled selected hidden></option>
+                                <option value="Morning Session (9 AM - 3 PM)">Morning Session (9 AM - 3 PM)</option>
+                                <option value="Evening Session (5 PM - 11 PM)">Evening Session (5 PM - 11 PM)</option>
+                                <option value="Full Day (9 AM - 11 PM)">Full Day (9 AM - 11 PM)</option>
+                            </select>
+                            <label class="floating-label"
+                                style="top:0; left:14px; font-size:12px; font-weight:500; color:var(--gold); transform:translateY(-50%); background:#0d1e33; padding:0 6px; border-radius:3px; z-index:2;">Preferred
+                                Time</label>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <div class="slider-container">
+                                <div class="slider-header">
+                                    Expected Guests <span id="guestValue">500</span>
+                                </div>
+                                <input type="range" name="expected_guests" min="50" max="2500" value="500" id="guests"
+                                    class="check-input">
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width" style="margin-bottom: 5px;">
+                            <textarea name="special_requirements" rows="3" class="form-control check-input"
+                                placeholder=" "></textarea>
+                            <label class="floating-label">Special Requirements (Optional)</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">Request Confirmation</button>
+                </form>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- SUCCESS POPUP -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <div class="success-icon">&#10003;</div>
+            <h2>Request Received!</h2>
+            <p>Thank you for choosing CBS Convention. Our team will verify the availability and contact you shortly to
+                confirm the reservation.</p>
+            <button onclick="closePopup()">Return Home</button>
+        </div>
+    </div>
+
+    <script>
+        // Guest slider logic
+        const slider = document.getElementById("guests");
+        const output = document.getElementById("guestValue");
+
+        slider.oninput = function () {
+            output.innerHTML = this.value;
+            updateProgress();
+        }
+
+        // Progress bar logic
+        const inputs = document.querySelectorAll(".check-input");
+        const progressBar = document.getElementById("progressBar");
+
+        inputs.forEach(el => {
+            el.addEventListener("input", updateProgress);
+            el.addEventListener("change", updateProgress);
+        });
+
+        function updateProgress() {
+            let filled = 0;
+            let total = 0;
+            inputs.forEach(el => {
+                // Don't count textarea as strictly required for progress but if filled it can add to it, wait, standard is to count required inputs. Let's just count them all.
+                total++;
+                if (el.type === 'range') {
+                    filled++;
+                } else if (el.value.trim() !== "") {
+                    filled++;
+                }
+            });
+            const percent = (filled / total) * 100;
+            progressBar.style.width = percent + "%";
+        }
+
+        // Initial progress check
+        updateProgress();
+
+        // Restrict past dates
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("date").setAttribute("min", today);
+
+        // Form submission & popup handling
+        const form = document.getElementById("bookingForm");
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = "Processing...";
+            btn.style.opacity = "0.8";
+
+            // Collect form data
+            const formData = new FormData(form);
+
+            // Send to FormSubmit using Fetch API so we can show the popup instead of redirecting
+            fetch(form.action, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        // Show success popup
+                        document.getElementById("popupOverlay").classList.add("active");
+                        btn.innerHTML = "Request Confirmation";
+                        btn.style.opacity = "1";
+                    } else {
+                        alert("There was a problem sending your request. Please try again.");
+                        btn.innerHTML = "Request Confirmation";
+                        btn.style.opacity = "1";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("There was a problem sending your request. Please check your connection and try again.");
+                    btn.innerHTML = "Request Confirmation";
+                    btn.style.opacity = "1";
+                });
+        });
+
+        function closePopup() {
+            document.getElementById("popupOverlay").classList.remove("active");
+            document.getElementById("bookingForm").reset();
+            output.innerHTML = "500";
+            updateProgress();
+
+            // Redirect to home (optional)
+            window.location.href = 'index.html';
+        }
+
+        // Floating label fixes for dynamic selects
+        const selects = document.querySelectorAll("select.form-control");
+        selects.forEach(sel => {
+            sel.addEventListener("change", function () {
+                if (this.value) {
+                    this.style.color = "white";
+                }
+            });
+        });
+
+    </script>
+
+</html>
